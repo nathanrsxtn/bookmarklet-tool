@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Bookmarklet Tool</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SV1ZM2HT9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-5SV1ZM2HT9');
+    </script>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="https://nathanrsxtn.dev">
+                <h1>nathanrsxtn</h1>
+            </a>
+        </div>
+        <div>
+            <a href="https://bookmarlet-tool.nathanrsxtn.dev">
+                <h2>bookmarklet-tool</h2>
+            </a>
+        </div>
+    </header>
+    <main>
+        <textarea id="bookmarletScriptBox" name="bookmarletScriptBox" spellcheck="false" autocomplete="off"></textarea>
+        <a id="bookmarkletLink">
+            <article>
+                <h2>Bookmarklet</h2>
+                <p>Drag and drop this box to the bookmarks bar.</p>
+            </article>
+        </a>
+    </main>
+    <script>
+        const generateIcon = (icon, size) => {
+            const canvas = Object.assign(document.createElement("canvas"), { width: size, height: size });
+            const ctx = Object.assign(canvas.getContext("2d"), { font: `${size}px monospace`, textBaseline: "middle", textAlign: "center", fillStyle: "#FF0" });
+            ctx.fillText(icon, size / 2, size / 2);
+            return Object.assign(document.createElement("img"), { src: canvas.toDataURL("image/png") });
+        }
+        const dragImageSize = 40;
+        const dragImage = generateIcon("★", dragImageSize);
+        const bookmarletLink = document.getElementById("bookmarkletLink");
+        const bookmarletScriptBox = document.getElementById("bookmarletScriptBox");
+        const bookmarletScript = new URLSearchParams(window.location.search).get("script");
+        bookmarletLink.onpointerenter = e => { e.currentTarget.style.height = getComputedStyle(e.currentTarget).height; e.currentTarget.querySelector("p").innerText = "" };
+        bookmarletLink.onpointerleave = e => { e.currentTarget.style.height = ""; e.currentTarget.querySelector("p").innerText = "Drag and drop this box to the bookmarks bar." };
+        bookmarletLink.ondragstart = e => e.dataTransfer.setDragImage(dragImage, dragImageSize / 2, dragImageSize / 2);
+        bookmarletScriptBox.oninput = e => {
+            const bookmarkletScript = bookmarletScriptBox.value.split("\n").map(line => line.trimStart()).join("\n");
+            bookmarletLink.href = bookmarkletScript.startsWith("(") ? `javascript:${bookmarkletScript}` : `javascript:(async function(){${bookmarkletScript}})();`
+            const params = new URLSearchParams(window.location.search);
+            params.set("script", encodeURIComponent(bookmarkletScript));
+            var url = window.location.origin + window.location.pathname + '?' + params.toString();
+            window.history.replaceState(null, '', url);
+        };
+        if (bookmarletScript) {
+            bookmarletScriptBox.value = decodeURIComponent(bookmarletScript);
+            bookmarletScriptBox.oninput();
+        };
+    </script>
+</body>
+
+</html>

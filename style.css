@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --c-a-w: hsl(0, 0%, 90%);
+    --c-a-l: hsl(0, 0%, 70%);
+    --c-a-m: hsl(0, 0%, 50%);
+    --c-a-d: hsl(0, 0%, 30%);
+    --c-a-b: hsl(0, 0%, 20%);
+
+    --c-b-w: hsl(0, 7%, 88%);
+    --c-b-l: hsl(0, 7%, 68%);
+    --c-b-m: hsl(0, 7%, 48%);
+    --c-b-d: hsl(0, 7%, 28%);
+    --c-b-b: hsl(0, 7%, 18%);
+
+    --f-em-to-vm: 3.6vmin;
+
+    background:
+        linear-gradient(00deg, var(--c-a-w) 0.1em, transparent 0.1em),
+        linear-gradient(90deg, var(--c-a-w) 0.1em, transparent 0.1em),
+        var(--c-b-w);
+    background-size: 1em 1em;
+    color: var(--c-a-b);
+    font-family: 'Baloo 2', cursive;
+}
+
+body {
+    display: flex;
+    position: absolute;
+    inset: min(5em, calc(5 * var(--f-em-to-vm) * exp(-1)));
+    flex-flow: column nowrap;
+    margin: 0;
+    border-radius: 0.6em;
+    box-shadow: 0.1em 0.1em 0.3em 0.1em var(--c-b-m);
+    background-color: var(--c-a-w);
+    padding: 1em;
+    container: body / inline-size;
+}
+
+header {
+    display: block;
+}
+
+header div {
+    display: inline;
+    height: 2.5em;
+}
+
+header div a {
+    display: inline-block;
+    transition: color 0.1s;
+    text-decoration: none;
+    color: currentColor;
+}
+
+header div a:hover {
+    color: var(--c-b-m) !important;
+}
+
+header div:not(:first-child) {
+    float: right;
+}
+
+header div a h1 {
+    display: block;
+    margin-block: 0;
+    line-height: 1.25em;
+    font-size: 2em;
+}
+
+header div a h2 {
+    display: block;
+    margin-block: 0;
+    font-size: 1.5em;
+}
+
+header div a svg {
+    display: block;
+    transition: stroke-width 0.1s;
+    height: 2.5em;
+    stroke: currentColor;
+    stroke-width: 0.1em;
+}
+
+header div a svg:hover {
+    stroke-width: 0.13em;
+}
+
+main {
+    display: grid;
+    flex-grow: 1;
+    grid-template: 1fr auto / 1fr;
+    gap: 1em;
+    padding: 0;
+    padding-top: 1em;
+}
+
+main textarea {
+    border: none;
+    resize: none;
+    margin-block: none;
+    white-space: pre;
+    overflow: scroll scroll !important;
+}
+
+main a,
+main textarea {
+    transition: box-shadow 0.2s;
+    border-radius: 0.5em;
+    box-shadow: 0.05em 0.05em 0.15em 0.05em var(--c-a-m);
+    background-color: var(--c-b-w);
+    padding: 1em;
+    overflow: hidden;
+    text-decoration: none;
+    color: currentColor;
+}
+
+main a:hover main textarea:hover {
+    box-shadow: 0.05em 0.05em 0.15em 0.1em var(--c-a-b);
+}
+
+main a article {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+}
+
+main a article h2 {
+    margin-block: 0;
+    word-break: break-all;
+    font-size: 1.5em;
+}
+
+main a article p {
+    transition: opacity 0.3s;
+    margin-block: 0;
+    font-size: 1em;
+}
+
+main a article img {
+    flex-grow: 1;
+    transition: opacity 0.3s;
+    height: 0;
+    object-fit: contain;
+}
+
+@container body (width < 24em) {
+    header div {
+        width: 100%;
+        text-align: center;
+    }
+
+    header div:first-child a {
+        width: 100%;
+    }
+
+    header div a h1 {
+        font-size: min(2em, 16cqw);
+    }
+
+    header div a h2 {
+        font-size: min(1.5em, 12cqw);
+    }
+
+    main a article h2 {
+        font-size: max(min(6.5cqw, 1.5em), 12px);
+    }
+
+    main a article p {
+        font-size: max(min(4.5cqw, 1em), 12px);
+    }
+}
