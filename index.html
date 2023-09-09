@@ -31,11 +31,14 @@
         </div>
     </header>
     <main>
-        <textarea id="bookmarletScriptBox" name="bookmarletScriptBox" spellcheck="false" autocomplete="off"></textarea>
+        <textarea id="bookmarletScriptBox" name="bookmarletScriptBox" spellcheck="false" autocomplete="off">
+/* Bookmarklet Script Goes Here */
+alert("Hello World!");
+        </textarea>
         <a id="bookmarkletLink">
             <article>
                 <h2>Bookmarklet</h2>
-                <p>Drag and drop this box to the bookmarks bar.</p>
+                <p>Drag and drop this box to the bookmarks bar.<br>WARNING: Bookmarklets may contain malicious code. Never add bookmarklets from unknown sources.</p>
             </article>
         </a>
     </main>
@@ -49,10 +52,12 @@
         const dragImageSize = 40;
         const dragImage = generateIcon("★", dragImageSize);
         const bookmarletLink = document.getElementById("bookmarkletLink");
+        const bookmarkletParagraph = bookmarletLink.querySelector("p");
+        const bookmarkletParagraphText = bookmarkletParagraph.innerText;
         const bookmarletScriptBox = document.getElementById("bookmarletScriptBox");
         const bookmarletScript = new URLSearchParams(window.location.search).get("script");
-        bookmarletLink.onpointerenter = e => { e.currentTarget.style.height = getComputedStyle(e.currentTarget).height; e.currentTarget.querySelector("p").innerText = "" };
-        bookmarletLink.onpointerleave = e => { e.currentTarget.style.height = ""; e.currentTarget.querySelector("p").innerText = "Drag and drop this box to the bookmarks bar." };
+        bookmarletLink.onpointerenter = e => { e.currentTarget.style.height = getComputedStyle(e.currentTarget).height; bookmarkletParagraph.innerText = "" };
+        bookmarletLink.onpointerleave = e => { e.currentTarget.style.height = ""; bookmarkletParagraph.innerText = bookmarkletParagraphText };
         bookmarletLink.ondragstart = e => e.dataTransfer.setDragImage(dragImage, dragImageSize / 2, dragImageSize / 2);
         bookmarletScriptBox.oninput = e => {
             const bookmarkletScript = bookmarletScriptBox.value.split("\n").map(line => line.trimStart()).join("\n");
@@ -62,10 +67,8 @@
             var url = window.location.origin + window.location.pathname + '?' + params.toString();
             window.history.replaceState(null, '', url);
         };
-        if (bookmarletScript) {
-            bookmarletScriptBox.value = decodeURIComponent(bookmarletScript);
-            bookmarletScriptBox.oninput();
-        };
+        if (bookmarletScript) bookmarletScriptBox.value = decodeURIComponent(bookmarletScript);
+        bookmarletScriptBox.oninput();
     </script>
 </body>
 
