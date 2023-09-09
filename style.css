@@ -27,7 +27,7 @@
 body {
     display: flex;
     position: absolute;
-    inset: min(5em, calc(5 * var(--f-em-to-vm) * exp(-1)));
+    inset: min(5em, calc(5 * var(--f-em-to-vm)) * 0.5);
     flex-flow: column nowrap;
     margin: 0;
     border-radius: 0.6em;
@@ -57,7 +57,7 @@ header div a:hover {
     color: var(--c-b-m) !important;
 }
 
-header div:not(:first-child) {
+header div+div {
     float: right;
 }
 
@@ -74,37 +74,16 @@ header div a h2 {
     font-size: 1.5em;
 }
 
-header div a svg {
-    display: block;
-    transition: stroke-width 0.1s;
-    height: 2.5em;
-    stroke: currentColor;
-    stroke-width: 0.1em;
-}
-
-header div a svg:hover {
-    stroke-width: 0.13em;
-}
-
 main {
     display: grid;
     flex-grow: 1;
-    grid-template: 1fr auto / 1fr;
+    grid-template: auto 1fr auto / 1fr;
     gap: 1em;
     padding: 0;
     padding-top: 1em;
 }
 
-main textarea {
-    border: none;
-    resize: none;
-    margin-block: none;
-    white-space: pre;
-    overflow: scroll scroll !important;
-}
-
-main a,
-main textarea {
+main a {
     transition: box-shadow 0.2s;
     border-radius: 0.5em;
     box-shadow: 0.05em 0.05em 0.15em 0.05em var(--c-a-m);
@@ -115,7 +94,7 @@ main textarea {
     color: currentColor;
 }
 
-main a:hover main textarea:hover {
+main a[href]:hover {
     box-shadow: 0.05em 0.05em 0.15em 0.1em var(--c-a-b);
 }
 
@@ -128,9 +107,14 @@ main a article {
 }
 
 main a article h2 {
+    display: inline;
     margin-block: 0;
     word-break: break-all;
     font-size: 1.5em;
+}
+
+main a article h2+h2 {
+    float: right;
 }
 
 main a article p {
@@ -139,11 +123,59 @@ main a article p {
     font-size: 1em;
 }
 
-main a article img {
+main a article code {
     flex-grow: 1;
-    transition: opacity 0.3s;
-    height: 0;
-    object-fit: contain;
+    margin-block: none;
+    border: 1em solid #00000020;
+    border-radius: 0.4em;
+    background-clip: padding-box;
+    background-color: #00000020;
+    overflow: scroll scroll !important;
+    white-space: pre;
+    flex-basis: 0;
+}
+
+main a article strong {
+    color: var(--c-b-d);
+}
+
+main a article input {
+    outline: none;
+    border: 0.1em solid transparent;
+    border-radius: 0.4em;
+    background-color: var(--c-a-w);
+    padding: 0.2em 0.5em;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+main a article input:hover {
+    border-color: var(--c-b-l);
+}
+
+main a article input:focus {
+    border-color: var(--c-b-d);
+}
+
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #00000020;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #00000020;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 3px;
+    background-clip: padding-box;
+    background-color: var(--c-a-m);
 }
 
 @container body (width < 24em) {
@@ -169,6 +201,10 @@ main a article img {
     }
 
     main a article p {
+        font-size: max(min(4.5cqw, 1em), 12px);
+    }
+
+    main a article input {
         font-size: max(min(4.5cqw, 1em), 12px);
     }
 }
