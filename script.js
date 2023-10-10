@@ -9,8 +9,6 @@ const dragImageSize = 40;
 const dragImage = generateIcon("★", dragImageSize);
 const bookmarkletLink = document.getElementById("bookmarkletLink");
 const bookmarkletNameText = document.getElementById("bookmarkletNameText");
-const bookmarkletExplanationText = document.getElementById("bookmarkletExplanationText");
-const bookmarkletExplanationTextMessage = bookmarkletExplanationText.innerHTML;
 const gistIdInput = document.getElementById("gistIdInput");
 const gistLink = document.getElementById("gistLink");
 const gistFileNameText = document.getElementById("gistFileNameText");
@@ -25,9 +23,8 @@ const updatePage = (gistId, gistDescription, gistLinkHref, gistFileName, gistAut
     bookmarkletLink.href = isValid ? scriptToSelfExecuter(gistFileContent) : "";
     history.replaceState(null, null, `${location.origin}${window.location.pathname}?gist=${gistId}`);
 };
-bookmarkletLink.onpointerenter = e => { e.currentTarget.style.height = getComputedStyle(e.currentTarget).height; bookmarkletExplanationText.innerHTML = "" };
-bookmarkletLink.onpointerleave = e => { e.currentTarget.style.height = ""; bookmarkletExplanationText.innerHTML = bookmarkletExplanationTextMessage };
 bookmarkletLink.ondragstart = e => e.dataTransfer.setDragImage(dragImage, dragImageSize / 2, dragImageSize / 2);
+bookmarkletLink.onclick = e => e.preventDefault();
 gistIdInput.oninput = async e => {
     const gistId = gistIdInput.value;
     const apiResponse = await fetch(`https://api.github.com/gists/${gistId}`);

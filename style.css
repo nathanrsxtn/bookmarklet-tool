@@ -48,12 +48,13 @@ header div {
 
 header div a {
     display: inline-block;
-    transition: color 0.1s;
-    text-decoration: none;
+    transition: color 0.1s, text-decoration-color 0.1s;
+    text-decoration: underline transparent 0.1em;
     color: currentColor;
 }
 
 header div a:hover {
+    text-decoration-color: currentColor;
     color: var(--c-b-m) !important;
 }
 
@@ -84,7 +85,7 @@ main {
 }
 
 main a {
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.1s;
     border-radius: 0.5em;
     box-shadow: 0.05em 0.05em 0.15em 0.05em var(--c-a-m);
     background-color: var(--c-b-w);
@@ -95,7 +96,7 @@ main a {
 }
 
 main a[href]:hover {
-    box-shadow: 0.05em 0.05em 0.15em 0.1em var(--c-a-b);
+    box-shadow: 0.05em 0.05em 0.15em 0.1em var(--c-b-m);
 }
 
 main a article {
@@ -108,9 +109,16 @@ main a article {
 
 main a article h2 {
     display: inline;
+    transition: color 0.1s, text-decoration-color 0.1s;
     margin-block: 0;
+    text-decoration: underline transparent 0.1em;
     word-break: break-all;
     font-size: 1.5em;
+}
+
+main a[href]:not(#bookmarkletLink):hover article h2:first-child {
+    text-decoration-color: currentColor;
+    color: var(--c-b-m);
 }
 
 main a article h2+h2 {
@@ -123,6 +131,22 @@ main a article p {
     font-size: 1em;
 }
 
+main a#bookmarkletLink {
+    cursor: grab;
+}
+
+main a#bookmarkletLink article p::before {
+    display: block;
+    content: "Drag and drop this box to the bookmarks bar.";
+}
+
+main a#bookmarkletLink article p::after {
+    display: block;
+    color: var(--c-b-d);
+    font-weight: bolder;
+    content: "WARNING: Bookmarklets may contain malicious code. Never add bookmarklets from unknown sources.";
+}
+
 main a article code {
     flex-grow: 1;
     margin-block: none;
@@ -133,10 +157,6 @@ main a article code {
     overflow: scroll scroll !important;
     white-space: pre;
     flex-basis: 0;
-}
-
-main a article strong {
-    color: var(--c-b-d);
 }
 
 main a article input {
